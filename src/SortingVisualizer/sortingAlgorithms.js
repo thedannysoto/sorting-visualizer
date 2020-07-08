@@ -40,21 +40,24 @@ function doMerge(
             // overwrite value at index k in the original array with
             // the value at index i in the auxilary array
             animations.push([k, auxArray[i]]);
+            mainArray[k++] = auxArray[i++];
+        } else {
+            // overwrite value at index k in the original array with
+            // value at index j in the aux array
+            animations.push([k, auxArray[j]]);
             mainArray[k++] = auxArray[j++];
         }
     }
     while (i <= middleIdx) {
-        animations.push({
-            comparison: [i, i],
-            swap: [k, i]
-        });
+        animations.push([i, i]);
+        animations.push([i, i]);
+        animations.push([k, auxArray[i]]);
         mainArray[k++] = auxArray[i++];
     }
     while(j <= endIdx) {
-        animations.push({
-            comparison: [j, j],
-            swap: [k, j]
-        });
+        animations.push([j, j]);
+        animations.push([j, j]);
+        animations.push([k, auxArray[j]]);
         mainArray[k++] = auxArray[j++];
     }
 }
