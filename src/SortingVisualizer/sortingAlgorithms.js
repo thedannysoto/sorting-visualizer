@@ -1,3 +1,4 @@
+// MERGE SORT
 export function mergeSort(array) {
     const animations = [];
     if (array.length <= 1) return array;
@@ -62,6 +63,29 @@ function doMerge(
     }
 }
 
+// BUBBLE SORT
+export function bubbleSort(array) {
+    const animations = [];
+    for (let x = 0; x < array.length; x++) {
+        for (let y = 0; y < array.length-x-1; y++) {
+            animations.push([y, y+1]);
+            animations.push([y, y+1]);
+            if (array[y] > array[y+1]) {
+                bubbleSwap(array, y, y+1);
+                animations.push([y, y+1])
+            } else {
+                animations.push([y + 1, y]);
+            }
+        }
+    }
+    return animations;
+}
+
+function bubbleSwap(array, a, b) {
+    let temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
+}
 
 
 
