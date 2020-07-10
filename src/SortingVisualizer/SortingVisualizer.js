@@ -4,7 +4,7 @@ import * as sortingAlgorithms from './sortingAlgorithms';
 import ButtonContainer from './ButtonContainer';
 import ArrayContainer from './ArrayContainer';
 
-const ANIMATION_SPEED_MS = .5;
+const ANIMATION_SPEED_MS = 1;
 const NUMBER_OF_ARRAY_BARS = 250;
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
@@ -40,6 +40,7 @@ const SortingVisualizer = props => {
         for (let x = 0; x < arrayBars.length; x++) {
             arrayBars[x].style.backgroundColor = 'red';
         }
+
     }
 
     // Algorithm Animations
@@ -143,6 +144,39 @@ const SortingVisualizer = props => {
        
     }
 
+    const selectionSort = () => {
+        let animations = [];
+        animations = sortingAlgorithms.selectionSort(barArray, animations);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            if (animations[i].length === 1 && i !== animations.length - 1) {
+                setTimeout(() => {
+
+                    const barCurrentIdx = animations[i];
+                    if (i > 0) {
+                        const barPreviousStyle = arrayBars[barCurrentIdx - 1].style;
+                        if (barPreviousStyle.backgroundColor === SECONDARY_COLOR) {
+                            barPreviousStyle.backgroundColor = 'red';
+                        }
+                    }
+                    const barCurrentStyle = arrayBars[barCurrentIdx].style;
+                    barCurrentStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+                
+            } else if (animations[i].length === 2) {
+                setTimeout(() => {
+                    const [barOneIdx, barTwoIdx] = animations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    const temp = barOneStyle.height;
+                    barOneStyle.height = barTwoStyle.height;
+                    barTwoStyle.height = temp;
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+    }
+
     return (
         <div>
             <ButtonContainer
@@ -150,6 +184,7 @@ const SortingVisualizer = props => {
                 onClickMergeHandler={() => onClickMergeHandler(mergeSort)} 
                 onClickBubbleHandler={() => onClickBubbleHandler(bubbleSort)}
                 onClickQuickHandler={() => onClickQuickHandler(quickSort)}
+                onClickSelectionHandler={() => onClickSelectionHandler(selectionSort)}
             />
             <ArrayContainer barArray={barArray} />
         </div>
@@ -170,6 +205,10 @@ const onClickBubbleHandler = (bubbleSort) => {
 
 const onClickQuickHandler = (quickSort) => {
     quickSort();
+}
+
+const onClickSelectionHandler = (selectionSort) => {
+    selectionSort();
 }
 
 

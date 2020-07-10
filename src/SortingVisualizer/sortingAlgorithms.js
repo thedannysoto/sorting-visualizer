@@ -117,8 +117,26 @@ function quickSortPartition(arr, start, end, animations) {
 }
 
 // SELECTION SORT
-export function selectionSort(arr, start, animations) {
-
+export function selectionSort(arr, animations) {
+    let index = 0;
+    let returnArray = arr.slice();
+    while (index < returnArray.length) {
+        let min = returnArray[index];
+        let minIndex = index;
+        for (let x = index; x < returnArray.length; x++) {
+            animations.push([x]);
+            if (returnArray[x] < min) {
+                min = returnArray[x];
+                minIndex = x;
+            }
+        }
+        animations.push([index, minIndex]);
+        let temp = returnArray[index];
+        returnArray[index] = returnArray[minIndex];
+        returnArray[minIndex] = temp;
+        index++;
+    }
+    return animations;
 }
 
 

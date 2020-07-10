@@ -9,6 +9,7 @@ const ButtonContainer = props => {
             <button className="button" onClick={props.onClickMergeHandler}>Merge Sort</button>
             <button className="button" onClick={props.onClickBubbleHandler}>Bubble Sort</button>
             <button className="button" onClick={props.onClickQuickHandler}>Quick Sort</button>
+            <button className="button" onClick={props.onClickSelectionHandler}>Selection Sort</button>
         </div>
 
 
