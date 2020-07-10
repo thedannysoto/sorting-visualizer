@@ -87,5 +87,38 @@ function bubbleSwap(array, a, b) {
     array[b] = temp;
 }
 
+// QUICK SORT
+export function quickSort(arr, start, end, animations) {
+    if(start >= end) return;
+    
+    let index = quickSortPartition(arr, start, end, animations);
+    quickSort(arr, start, index - 1, animations);
+    quickSort(arr, index + 1, end, animations);
+
+    return animations;
+}
+
+function quickSortPartition(arr, start, end, animations) {
+    let pivotIndex = start;
+    animations.push([pivotIndex]);
+    let pivotValue = arr[end];
+    animations.push([end]);
+    for (let i = start; i < end; i++) {
+        if(arr[i] < pivotValue) {
+            bubbleSwap(arr, i, pivotIndex)
+            animations.push([i, pivotIndex])
+            pivotIndex++;
+            animations.push([pivotIndex]);
+        }
+    }
+    bubbleSwap(arr, pivotIndex, end);
+    animations.push([pivotIndex, end]);
+    return pivotIndex;
+}
+
+// SELECTION SORT
+export function selectionSort(arr, start, animations) {
+
+}
 
 

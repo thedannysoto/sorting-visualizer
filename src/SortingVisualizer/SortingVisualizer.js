@@ -2,12 +2,13 @@ import React, {useState, useEffect} from 'react';
 import './SortingVisualizer.css';
 import * as sortingAlgorithms from './sortingAlgorithms';
 import ButtonContainer from './ButtonContainer';
+import ArrayContainer from './ArrayContainer';
 
-const ANIMATION_SPEED_MS = .2;
-const NUMBER_OF_ARRAY_BARS = 300;
+const ANIMATION_SPEED_MS = .5;
+const NUMBER_OF_ARRAY_BARS = 250;
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
-    const multiplier = 1 - (parseInt(height) / 1000);
+    const multiplier = 1 - (parseInt(height) / 510);
     const greenValue = Math.floor(255 * multiplier);
     return `rgb(0, ${greenValue}, 255)`;
 };
@@ -21,9 +22,19 @@ const SortingVisualizer = props => {
 
     const resetArray = () => {
         const array = [];
-        for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
-            array.push(randomIntFromInterval(5, 500));
+        setBarArray([]);
+
+        for (let i = 5; i < ((NUMBER_OF_ARRAY_BARS * 2) + 6); i += 2){
+            array.push(i);
         }
+
+        for(let x = array.length-1; x > 0; x--){
+            const y = Math.floor(Math.random() * x);
+            const temp = array[x];
+            array[x] = array[y];
+            array[y] = temp;
+        }
+
         setBarArray(array);
         const arrayBars = document.getElementsByClassName('array-bar');
         for (let x = 0; x < arrayBars.length; x++) {
@@ -104,7 +115,32 @@ const SortingVisualizer = props => {
     }
 
     const quickSort = () => {
-        
+        let animations = [];
+        animations = sortingAlgorithms.quickSort(barArray, 0, barArray.length-1, animations);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            if (animations[i].length === 1) {
+                // set pivot index and pivot bar to yellow
+                setTimeout(() => {
+                arrayBars[animations[i][0]].style.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } else {
+                // Set bars being switched to final blue color
+                setTimeout(() => {
+                const [barOneIdx, barTwoIdx] = animations[i];
+                const barOneStyle = arrayBars[barOneIdx].style;
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                if (barOneStyle.height !== barTwoStyle.height) {
+                    const temp = barOneStyle.height;
+                    barOneStyle.height = barTwoStyle.height;
+                    barTwoStyle.height = temp;
+                }
+                barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                barTwoStyle.backgroundColor = finalColor(barTwoStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+       
     }
 
     return (
@@ -113,18 +149,9 @@ const SortingVisualizer = props => {
                 onClickGenerateHandler={() => onClickGenerateHandler(resetArray)}
                 onClickMergeHandler={() => onClickMergeHandler(mergeSort)} 
                 onClickBubbleHandler={() => onClickBubbleHandler(bubbleSort)}
+                onClickQuickHandler={() => onClickQuickHandler(quickSort)}
             />
-            <div className="array-container">
-                {barArray.map((num, idx) => {
-                    return (
-                    <div 
-                        className="array-bar" 
-                        key={idx}
-                        style={{height: `${num}px`}}
-                    ></div>
-                    )
-                })} 
-            </div>
+            <ArrayContainer barArray={barArray} />
         </div>
     );
 }
@@ -141,11 +168,15 @@ const onClickBubbleHandler = (bubbleSort) => {
     bubbleSort();
 }
 
-
-function randomIntFromInterval(min, max) {
-    // min and max are included
-    return Math.floor(Math.random() * (max - min + 1) + min);
+const onClickQuickHandler = (quickSort) => {
+    quickSort();
 }
+
+
+// function randomIntFromInterval(min, max) {
+//     // min and max are included
+//     return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
 
 export default SortingVisualizer;
