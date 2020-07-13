@@ -72,12 +72,29 @@ export function bubbleSort(array) {
             animations.push([y, y+1]);
             if (array[y] > array[y+1]) {
                 bubbleSwap(array, y, y+1);
-                animations.push([y, y+1])
+                // if (y === array.length-x-2) {
+                animations.push([y, array[y], y+1, array[y+1]])
+                // } else {
+                    // animations.push([y, array[y], y+1, array[y+1], false])
             } else {
-                animations.push([y + 1, y]);
+                    animations.push([y, array[y], y+1, array[y+1]])
+            }
+            if (y === array.length-x-2) {
+                animations[animations.length-1] = [y, array[y], y+1, array[y+1], true];
             }
         }
+                // if (y + 1 === array.length-x-2) {
+                //     animations.push([y, array[y], y+1, array[y+1], true])
+                // } else {
+                //     animations.push([y, 0, y+1, 0, false]);
+                // }
     }
+            // if (y === array.length-x-2) {
+                
+            // }
+        
+    
+    // console.log(animations);
     return animations;
 }
 
