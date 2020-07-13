@@ -68,33 +68,21 @@ export function bubbleSort(array) {
     const animations = [];
     for (let x = 0; x < array.length; x++) {
         for (let y = 0; y < array.length-x-1; y++) {
+            // compared values pushed for yellow color change
             animations.push([y, y+1]);
-            animations.push([y, y+1]);
+            // Swap bar values if the first bar is bigger than 2nd
             if (array[y] > array[y+1]) {
                 bubbleSwap(array, y, y+1);
-                // if (y === array.length-x-2) {
                 animations.push([y, array[y], y+1, array[y+1]])
-                // } else {
-                    // animations.push([y, array[y], y+1, array[y+1], false])
             } else {
-                    animations.push([y, array[y], y+1, array[y+1]])
+                animations.push([y, array[y], y+1, array[y+1]])
             }
+            // If end of the array, send 'true' to change bar color to blue
             if (y === array.length-x-2) {
                 animations[animations.length-1] = [y, array[y], y+1, array[y+1], true];
             }
         }
-                // if (y + 1 === array.length-x-2) {
-                //     animations.push([y, array[y], y+1, array[y+1], true])
-                // } else {
-                //     animations.push([y, 0, y+1, 0, false]);
-                // }
     }
-            // if (y === array.length-x-2) {
-                
-            // }
-        
-    
-    // console.log(animations);
     return animations;
 }
 
@@ -107,7 +95,7 @@ function bubbleSwap(array, a, b) {
 // QUICK SORT
 export function quickSort(arr, start, end, animations) {
     if(start >= end) return;
-    
+
     let index = quickSortPartition(arr, start, end, animations);
     quickSort(arr, start, index - 1, animations);
     quickSort(arr, index + 1, end, animations);
@@ -117,40 +105,46 @@ export function quickSort(arr, start, end, animations) {
 
 function quickSortPartition(arr, start, end, animations) {
     let pivotIndex = start;
+    // push pivotIndex to highlight in yellow
     animations.push([pivotIndex]);
     let pivotValue = arr[end];
+    // push end inded to highlight in yellow
     animations.push([end]);
     for (let i = start; i < end; i++) {
         if(arr[i] < pivotValue) {
+            // swap values of bars
             bubbleSwap(arr, i, pivotIndex)
-            animations.push([i, pivotIndex])
+            // push index and bar height of bars to be switched
+            animations.push([i, arr[i], pivotIndex, arr[pivotIndex]])
             pivotIndex++;
+            // push new pivotIndex to highlight in yellow
             animations.push([pivotIndex]);
         }
     }
     bubbleSwap(arr, pivotIndex, end);
-    animations.push([pivotIndex, end]);
+    // push index and bar height of final bar to be switched
+    animations.push([pivotIndex, arr[pivotIndex], end, arr[end], true]);
     return pivotIndex;
 }
 
 // SELECTION SORT
 export function selectionSort(arr, animations) {
     let index = 0;
-    let returnArray = arr.slice();
-    while (index < returnArray.length) {
-        let min = returnArray[index];
+    while (index < arr.length) {
+        let min = arr[index];
         let minIndex = index;
-        for (let x = index; x < returnArray.length; x++) {
+        for (let x = index; x < arr.length; x++) {
+            // push index of bar to be highlighted in yellow
             animations.push([x]);
-            if (returnArray[x] < min) {
-                min = returnArray[x];
+            if (arr[x] < min) {
+                min = arr[x];
                 minIndex = x;
             }
         }
-        animations.push([index, minIndex]);
-        let temp = returnArray[index];
-        returnArray[index] = returnArray[minIndex];
-        returnArray[minIndex] = temp;
+        animations.push([index, arr[index], minIndex, arr[minIndex]]);
+        let temp = arr[index];
+        arr[index] = arr[minIndex];
+        arr[minIndex] = temp;
         index++;
     }
     return animations;
