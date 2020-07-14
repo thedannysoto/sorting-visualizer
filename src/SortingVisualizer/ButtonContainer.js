@@ -13,6 +13,7 @@ const ButtonContainer = props => {
             <button className="button" onClick={props.onClickHeapHandler}>Heap Sort</button>
             <button className="button" onClick={props.onClickInsertionHandler}>Insertion Sort</button>
             <button className="button" onClick={props.onClickCocktailHandler}>Cocktail Sort</button>
+            <button className="button" onClick={props.onClickRadixHandler}>Radix Sort</button>
         </div>
 
 

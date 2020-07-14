@@ -4,7 +4,7 @@ import * as sortingAlgorithms from './sortingAlgorithms';
 import ButtonContainer from './ButtonContainer';
 import ArrayContainer from './ArrayContainer';
 
-const ANIMATION_SPEED_MS = .2;
+const ANIMATION_SPEED_MS = 3;
 const NUMBER_OF_ARRAY_BARS = 250;
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
@@ -310,6 +310,48 @@ const SortingVisualizer = props => {
         }
     }
 
+    const radixSort = () => {
+        const animations = sortingAlgorithms.radixSort(barArray);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            const barOneIdx = animations[i][0];
+            if (i === 0) {
+                // set first bar to blue
+                setTimeout(() => {
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            } else if (animations[i].length === 1 && animations[i][0] !== animations[i-1][0]) {
+                // set index value bar to yellow
+                setTimeout(() => {
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } else if (animations[i].length === 1) {
+                // set index value bar to blue from yellow
+                setTimeout(() => {
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            
+            } else {
+                // switch heights of bars and set to blue according to radix array
+                setTimeout(() => {
+                    console.log(animations[i][0]);
+                    // iterate through radix array and match bar heights
+                    for (let x = 0; x < animations[i][0].length; x++) {
+                        if (x % 2 === 0) {
+                            let newBarIdx = animations[i][0][x];
+                            let newBarStyle = arrayBars[newBarIdx].style;
+                            newBarStyle.height = `${animations[i][0][x+1]}px`;
+                            newBarStyle.backgroundColor = finalColor(newBarStyle.height);
+                        }
+                    }
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+    }
+
     // CLICK HANDLERS
     const onClickGenerateHandler = () => {
         resetArray();
@@ -342,6 +384,10 @@ const SortingVisualizer = props => {
     const onClickCocktailHandler = () => {
         cocktailSort();
     }
+    
+    const onClickRadixHandler = () => {
+        radixSort();
+    }
 
     return (
         <div>
@@ -354,6 +400,7 @@ const SortingVisualizer = props => {
                 onClickHeapHandler={onClickHeapHandler}
                 onClickInsertionHandler={onClickInsertionHandler}
                 onClickCocktailHandler={onClickCocktailHandler}
+                onClickRadixHandler={onClickRadixHandler}
             />
             <ArrayContainer barArray={barArray} />
         </div>

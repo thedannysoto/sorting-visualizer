@@ -242,3 +242,34 @@ export function cocktailSort(array) {
     } while(swapped)
     return animations;
 }
+
+// RADIX SORT
+export function radixSort(array) {
+    const animations = [];
+    if (array.length < 2) return array;
+    let maxValue = array[0];
+    for (let i = 1; i < array.length; i++) {
+        if(array[i] > maxValue) {
+            maxValue = array[i];
+        }
+    }
+    const iterationCount = maxValue.toString().length;
+    for (let digit = 0; digit < iterationCount; digit++) {
+        const bucketArray = Array.from({length: 10}, () => []);
+        for (let i = 0; i < array.length; i++) {
+            animations.push([i]);
+            animations.push([i]);
+            const digitValue = Math.floor(array[i] / Math.pow(10, digit)) % 10;
+            bucketArray[digitValue].push(array[i]);
+            let test = [].concat(...bucketArray);
+            // console.log(test);
+            let values = []
+            for (let x = 0; x < test.length; x++) {
+                values.push(x, test[x]);
+            }
+            animations.push([values, true]);
+        }
+        array = [].concat(...bucketArray);
+    }
+    return animations;
+}
