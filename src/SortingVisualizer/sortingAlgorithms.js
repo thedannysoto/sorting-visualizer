@@ -150,4 +150,95 @@ export function selectionSort(arr, animations) {
     return animations;
 }
 
+// HEAP SORT
+export function heapSort(array) {
+    const animations = [];
+    if (array.length < 2) return array;
+    let arrayLength = array.length;
+    // orders array in Max Heap format
+    for (let i = Math.floor(array.length / 2) - 1; i >= 0; i--) {
+        sortParentAndChild(array, arrayLength, i, animations);
+    }
+    for (let i = array.length - 1; i > 0; i--) {
+        // swap largest value to end of array
+        animations.push([0, array[0], i, array[i]]);
+        bubbleSwap(array, 0, i);
+        animations.push([0, array[0], i, array[i], true]);
+        arrayLength--;
+        sortParentAndChild(array, arrayLength, 0, animations);
+    }
+    return animations;
+}
 
+function sortParentAndChild(array, arrayLength, parentIndex, animations) {
+    const leftIndex = parentIndex * 2 + 1;
+    const rightIndex = parentIndex * 2 + 2;
+    let maxIndex = parentIndex;
+    if (leftIndex < arrayLength && array[leftIndex] > array[maxIndex]) {
+        maxIndex = leftIndex;
+    }
+    if (rightIndex < arrayLength && array[rightIndex] > array[maxIndex]) {
+        maxIndex = rightIndex;
+    }
+    if (maxIndex !== parentIndex) {
+        animations.push([parentIndex, array[parentIndex], maxIndex, array[maxIndex]]);
+        bubbleSwap(array, parentIndex, maxIndex);
+        animations.push([parentIndex, array[parentIndex], maxIndex, array[maxIndex]]);
+        sortParentAndChild(array, arrayLength, maxIndex, animations);
+    }
+}
+
+// INSERTION SORT
+export function insertionSort(array) {
+    const animations = []
+    for (let a = 0; a < array.length; a++) {
+        let b = a;
+        // animations.push([b]);
+        while (b > 0 && array[b-1] > array[b]) {
+            animations.push([b, b-1]);
+            bubbleSwap(array, b, b-1);
+            animations.push([b, array[b], b-1, array[b-1]]);
+            b--;
+        }
+    }
+    return animations;
+
+}
+
+// COCKTAIL SORT
+export function cocktailSort(array) {
+    const animations = [];
+    if (array.length < 2) return array;
+    let swapped;
+    let indexForward = 0;
+    let indexBackward = array.length - 1;
+    do {
+        swapped = false;
+        for (let i = indexForward; i < indexBackward; i++) {
+            animations.push([i]);
+            animations.push([i]);
+            if (array[i] > array[i + 1]) {
+                animations.push([i, i+1]);
+                bubbleSwap(array, i, i + 1);
+                animations.push([i, array[i], i+1, array[i+1]]);
+                swapped = true;
+            }
+        }
+        if (!swapped) {
+            break;
+        }
+        indexBackward--;
+        for (let i = indexBackward - 1; i >= indexForward; i--) {
+            animations.push([i]);
+            animations.push([i]);
+            if (array[i] > array[i+1]) {
+                animations.push([i, i+1]);
+                bubbleSwap(array, i, i + 1);
+                animations.push([i, array[i], i+1, array[i+1]]);
+                swapped = true;
+            }
+        }
+        indexForward++;
+    } while(swapped)
+    return animations;
+}

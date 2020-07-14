@@ -4,7 +4,7 @@ import * as sortingAlgorithms from './sortingAlgorithms';
 import ButtonContainer from './ButtonContainer';
 import ArrayContainer from './ArrayContainer';
 
-const ANIMATION_SPEED_MS = .1;
+const ANIMATION_SPEED_MS = .2;
 const NUMBER_OF_ARRAY_BARS = 250;
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
@@ -141,7 +141,6 @@ const SortingVisualizer = props => {
             } else {
                 // Set bars being switched to final blue color
                 setTimeout(() => {
-                    console.log(animations[i]);
                     const barOneIdx = animations[i][0];
                     const barTwoIdx = animations[i][2];
                     const barOneStyle = arrayBars[barOneIdx].style;
@@ -196,6 +195,122 @@ const SortingVisualizer = props => {
         }
     }
 
+    const heapSort = () => {
+        const animations = sortingAlgorithms.heapSort(barArray);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            console.log(animations[i]);
+            const barOneIdx = animations[i][0];
+            const barTwoIdx = animations[i][2];
+            const barOneStyle = arrayBars[barOneIdx].style;
+            const barTwoStyle = arrayBars[barTwoIdx].style;
+            // Color change to yellow bars
+            if (i % 2 === 0 && animations[i].length === 4) {
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                    barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            // Color change back to red during max heap reordering
+            } else if (i % 2 === 1 && animations[i].length === 4) {
+                setTimeout(() => {
+                    barOneStyle.height = `${animations[i][1]}px`;
+                    barTwoStyle.height = `${animations[i][3]}px`;
+                    barOneStyle.backgroundColor = 'red';
+                    barTwoStyle.backgroundColor = 'red';
+                }, i * ANIMATION_SPEED_MS);
+            // color change final swap to blue
+            } else {
+                setTimeout(() => {
+                    barOneStyle.height = `${animations[i][1]}px`;
+                    barTwoStyle.height = `${animations[i][3]}px`;
+                    barOneStyle.backgroundColor = 'red';
+                    barTwoStyle.backgroundColor = finalColor(barTwoStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+        // Color change smallest bar to blue at the end
+        setTimeout(() => {
+            arrayBars[0].style.backgroundColor = finalColor(arrayBars[0].style.height);
+        }, animations.length * ANIMATION_SPEED_MS);
+    }
+
+    const insertionSort = () => {
+        const animations = sortingAlgorithms.insertionSort(barArray);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            const barOneIdx = animations[i][0];
+            const barOneStyle = arrayBars[barOneIdx].style;
+            if (animations[i].length === 2) {
+                const barTwoIdx = animations[i][0];
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                // set compared bars to yellow
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                    barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } else {
+                const barTwoIdx = animations[i][2];
+                const barTwoStyle = arrayBars[barTwoIdx].style;
+                // swap bar heights and set color to blue
+                setTimeout(() => {
+                    barOneStyle.height = `${animations[i][1]}px`
+                    barTwoStyle.height = `${animations[i][3]}px`
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                    barTwoStyle.backgroundColor = finalColor(barTwoStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+         // Color change smallest bar to blue at the end
+         setTimeout(() => {
+            arrayBars[0].style.backgroundColor = finalColor(arrayBars[0].style.height);
+        }, animations.length * ANIMATION_SPEED_MS);
+
+    }
+
+    const cocktailSort = () => {
+        const animations = sortingAlgorithms.cocktailSort(barArray);
+        const arrayBars = document.getElementsByClassName('array-bar');
+        for (let i = 0; i < animations.length; i++) {
+            const barOneIdx = animations[i][0];
+            const barOneStyle = arrayBars[barOneIdx].style;
+            if (i === 0) {
+                // set first bar to blue
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            } else if (animations[i].length === 1 && animations[i][0] !== animations[i-1][0]) {
+                // set index value bar to yellow
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } else if (animations[i].length === 1) {
+                // set index value bar to blue from yellow
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            } else if (animations[i].length === 2) {
+                // set compared bars to yellow
+                setTimeout(() => {
+                    const barTwoIdx = animations[i][1];
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    barOneStyle.backgroundColor = SECONDARY_COLOR;
+                    barTwoStyle.backgroundColor = SECONDARY_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } else {
+                // switch heights of bars and set to blue
+                setTimeout(() => {
+                    const barTwoIdx = animations[i][2];
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    barOneStyle.height = `${animations[i][1]}px`;
+                    barTwoStyle.height = `${animations[i][3]}px`;
+                    barOneStyle.backgroundColor = finalColor(barOneStyle.height);
+                    barTwoStyle.backgroundColor = finalColor(barTwoStyle.height);
+                }, i * ANIMATION_SPEED_MS);
+            }
+        }
+    }
+
+    // CLICK HANDLERS
     const onClickGenerateHandler = () => {
         resetArray();
     };
@@ -216,6 +331,18 @@ const SortingVisualizer = props => {
         selectionSort();
     }
 
+    const onClickHeapHandler = () => {
+        heapSort();
+    }
+
+    const onClickInsertionHandler = () => {
+        insertionSort();
+    }
+
+    const onClickCocktailHandler = () => {
+        cocktailSort();
+    }
+
     return (
         <div>
             <ButtonContainer
@@ -224,6 +351,9 @@ const SortingVisualizer = props => {
                 onClickBubbleHandler={onClickBubbleHandler}
                 onClickQuickHandler={onClickQuickHandler}
                 onClickSelectionHandler={onClickSelectionHandler}
+                onClickHeapHandler={onClickHeapHandler}
+                onClickInsertionHandler={onClickInsertionHandler}
+                onClickCocktailHandler={onClickCocktailHandler}
             />
             <ArrayContainer barArray={barArray} />
         </div>
