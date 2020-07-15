@@ -1,6 +1,6 @@
-import * as sortingAlgorithms from './sortingAlgorithms';
+import * as sortingAlgorithms from '../Algorithms/sortingAlgorithms';
 
-const ANIMATION_SPEED_MS = 5;
+const ANIMATION_SPEED_MS = 10;
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
     const barHeight = parseInt(height.split("px")[0]);

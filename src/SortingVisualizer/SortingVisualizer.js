@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import './SortingVisualizer.css';
-import ButtonContainer from './ButtonContainer';
-import ArrayContainer from './ArrayContainer';
-import * as algorithmAnimations from './animations';
+import ButtonContainer from './Components/ButtonContainer';
+import ArrayContainer from './Components/ArrayContainer';
+import * as algorithmAnimations from './Animations/animations';
 
 const NUMBER_OF_ARRAY_BARS = 250;
 
 
 const SortingVisualizer = () => {
-
+    // Holds initial randomized array
     const [barArray, setBarArray] = useState([]);
 
     useEffect(() => resetArray(), []);
