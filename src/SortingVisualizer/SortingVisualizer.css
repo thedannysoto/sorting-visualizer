@@ -1,5 +1,12 @@
 .array-container {
+    margin-top: 100px;
     text-align: center;
+    background-color: rgb(0, 0, 0);
+    border: 2px;
+    border-style: solid;
+    border-color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .array-bar {
@@ -11,25 +18,68 @@
 
 .button-container {
     background-color: rgb(46, 46, 101);
+    /* background-color: grey; */
     height: 100px;
     display: flex;
+    justify-content: center;
 }
 
-.generate-button {
-    color:green;
+.generate-button-container {
+    margin-right: 50px;
 }
 
 .algorithm-select {
-    margin-top: 9px;
-    margin-left: 50px;
+    margin-top: 18px;
+    margin-right: 50px;
+}
+
+.toggle-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.toggle-label {
+    color: white;
+    width: 95px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 2px;
 }
 
 .toggle-button-group {
-    margin-top: 30px;
-    background-color:rgb(87,87,191);
+    margin-right: 50px;
+    background-color:rgb(87, 87, 191);
     height: 40px;
 }
 
-.toggle-button {
-    color: white
+.toggle-button-group button.Mui-selected {
+    background-color:rgb(112, 112, 250);
+}
+
+.toggle-button-group button.Mui-selected:hover {
+    background-color:rgb(112, 112, 250);
+}
+
+.toggle-button-group button:hover {
+    background-color:rgb(98, 98, 216);
+}
+
+.toggle-button-group button.Mui-disabled {
+    background-color: grey;
+}
+
+
+#algorithm-select {
+    background-color: rgb(46, 46, 101);
+}
+
+#algorithm-select svg.MuiSelect-icon {
+    color: white;
+}
+#algorithm-select div.MuiInput-underline {
+    text-decoration-line: white;
+}
+
+.button-container button.Mui-disabled {
+    background-color: grey;   
 }

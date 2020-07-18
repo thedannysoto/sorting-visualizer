@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './SortingVisualizer.css';
 import ButtonContainer from './Components/ButtonContainer';
 import ArrayContainer from './Components/ArrayContainer';
-import * as algorithmAnimations from './Animations/animations';
+// import * as algorithmAnimations from './Animations/animations';
 
 const NUMBER_OF_ARRAY_BARS = 250;
 
@@ -42,50 +42,11 @@ const SortingVisualizer = () => {
         resetArray();
     };
 
-    const onClickQuickHandler = () => {
-        algorithmAnimations.quickSort(barArray);
-    }
-
-    const onClickMergeHandler = () => {
-        algorithmAnimations.mergeSort(barArray);
-    }
-
-    const onClickBubbleHandler = () => {
-            algorithmAnimations.bubbleSort(barArray);
-    }
-
-    const onClickSelectionHandler = () => {
-        algorithmAnimations.selectionSort(barArray);
-    }
-
-    const onClickHeapHandler = () => {
-        algorithmAnimations.heapSort(barArray);
-    }
-
-    const onClickInsertionHandler = () => {
-        algorithmAnimations.insertionSort(barArray);
-    }
-
-    const onClickCocktailHandler = () => {
-        algorithmAnimations.cocktailSort(barArray);
-    }
-    
-    const onClickRadixHandler = () => {
-        algorithmAnimations.radixSort(barArray);
-    }
-
     return (
         <div>
             <ButtonContainer
                 onClickGenerateHandler={onClickGenerateHandler}
-                onClickMergeHandler={onClickMergeHandler} 
-                onClickBubbleHandler={onClickBubbleHandler}
-                onClickQuickHandler={onClickQuickHandler}
-                onClickSelectionHandler={onClickSelectionHandler}
-                onClickHeapHandler={onClickHeapHandler}
-                onClickInsertionHandler={onClickInsertionHandler}
-                onClickCocktailHandler={onClickCocktailHandler}
-                onClickRadixHandler={onClickRadixHandler}
+                barArray={barArray}
             />
             <ArrayContainer barArray={barArray} />
         </div>
