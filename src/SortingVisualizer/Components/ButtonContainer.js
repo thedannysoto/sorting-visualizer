@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import SpeedContainer from './SpeedContainer';
 import * as algorithmAnimations from '../Animations/animations';
-// import Animations from '../Animations/animations';
 
 
 
@@ -19,7 +18,6 @@ const GenerateButton = withStyles({
     padding: '6px 12px',
     border: '1px solid',
     marginTop: '30px',
-    // marginRight: '50px',
     height: '40px',
     lineHeight: 1.5,
     backgroundColor: 'rgb(87, 87, 191)',
@@ -190,7 +188,6 @@ const ButtonContainer = props => {
             >
                   Sort Array
             </GenerateButton>
-            {/* <Animations /> */}
         </div>
 
 

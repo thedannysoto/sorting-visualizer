@@ -7,7 +7,6 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 
 const SpeedContainer = props => {
-    // const [speed, setSpeed] = React.useState('slow');
 
     const handleSpeed = (event, newSpeed) => {
       if (newSpeed !== null) {
@@ -24,10 +23,10 @@ const SpeedContainer = props => {
   
     return (
         <div className="toggle-div">
-        <div className="toggle-label">
-            <label>Speed</label>
-        </div>
-        <ToggleButtonGroup
+            <div className="toggle-label">
+                <label>Speed</label>
+            </div>
+            <ToggleButtonGroup
                 value={props.speed}
                 exclusive
                 onChange={handleSpeed}

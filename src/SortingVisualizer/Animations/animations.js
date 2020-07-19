@@ -1,9 +1,4 @@
-// import React from 'react';
 import * as sortingAlgorithms from '../Algorithms/sortingAlgorithms';
-
-// const Animations = props => {
-
-
 
 const SECONDARY_COLOR = 'yellow';
 const finalColor = (height) => {
@@ -20,10 +15,6 @@ export function mergeSort(barArray, speed) {
     const animations = sortingAlgorithms.mergeSort(barArray);
     for (let i = 0; i < animations.length; i++) {
        const arrayBars = document.getElementsByClassName('array-bar');
-    //    let testArray = [];
-    // for (let a = 0; a < arrayBars.length; a++) {
-    //     testArray.push(arrayBars[a].style.height);
-    // }
        const isColorChange = i % 3 !== 2;
        if (isColorChange) {
            const [barOneIdx, barTwoIdx] = animations[i];
@@ -346,12 +337,3 @@ export function radixSort(barArray, speed) {
     }
     return animations.length * speed;
 }
-
-//     return (
-//         <>
-//         </>
-//     )
-
-// }
-
-// export default Animations;
